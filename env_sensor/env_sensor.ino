@@ -1,10 +1,11 @@
 /*---------------------------------------------------I/O explain 
-MQ_2   analog -A3   digital -1 
-HC_SR501  3
-BH1750   ADD -cathode     SDA -A4      SCL-A5
-DHT11  2
-KY-038  A2
+MQ_2             analog_pin -A3   digital_pin -1 
+HC_SR501      digital_pin-3
+BH1750         ADD -cathode     SDA -A4      SCL-A5
+DHT11           digital_pin-2
+KY-038           analog_pin-A0
 ---------------------------------------------------I/Oexplain
+tarsbot  at 2015.12.4
 */
 
 #include <Wire.h>
@@ -13,13 +14,13 @@ KY-038  A2
 #include <dependant_api/all_sensor.h>
 
 
-#define Sensor_yw  A3    // --------------------------------------yan_wu
+#define Sensor_yw  A3    // --------------------------------------smoke
 #define Sensor_yw_DO  2
-unsigned int SensorValue = 0;  //-------------------------------yan_wu
+unsigned int SensorValue = 0;  //-------------------------------smoke
 
 int Sensor_man= 3;  //------------------------------------------man
 
-int sensorPin = A2;//----------------------------------------------microphone
+int sensorPin = A0;//----------------------------------------------noise
 
 
 //#include <std_msgs/Int16.h>
@@ -29,14 +30,14 @@ dependant_api::all_sensor  data_msg;
 ros::Publisher chatter("/robot/env_sensor", &data_msg);
 ros::NodeHandle  nh;
 
-BH1750 lightMeter(2);
+BH1750 illuminationMeter(2);
 
 
 void setup(){
   //Serial.begin(9600);
   nh.initNode();
   nh.advertise(chatter);
-  lightMeter.begin();
+  illuminationMeter.begin();
  
   pinMode(Sensor_yw_DO,INPUT);
   pinMode(Sensor_yw,INPUT);
@@ -48,19 +49,19 @@ void setup(){
 
 void loop() 
 { 
-  lightMeter.DHT11_Read();				//读取温湿度值
-  data_msg.huminity= lightMeter.HUMI_Buffer_Int;
-  data_msg.temperature= lightMeter.TEM_Buffer_Int;
+  illuminationMeter.DHT11_Read();				//读取温湿度值
+  data_msg.humidity= illuminationMeter.HUMI_Buffer_Int;
+  data_msg.temperature= illuminationMeter.TEM_Buffer_Int;
   
   SensorValue = analogRead(Sensor_yw);
-  data_msg.yan_wu=SensorValue;
+  data_msg.smoke=SensorValue;
   
-  uint16_t  lux = lightMeter.readLightLevel();
-  data_msg.light=lux;
+  uint16_t  lux = illuminationMeter.readLightLevel();
+  data_msg.illumination=lux;
   
-  data_msg.test_man=digitalRead(Sensor_man);
+  data_msg.human=digitalRead(Sensor_man);
   
-  data_msg.microphone=analogRead (sensorPin);
+  data_msg.noise=analogRead (sensorPin);
   
   chatter.publish( &data_msg );
   nh.spinOnce();
