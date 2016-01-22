@@ -6,18 +6,35 @@ ros::NodeHandle nh;
 Servo servo_head;
 Servo servo_left_arm;
 Servo servo_right_arm;
-int pos_head = 90.0;
-int pos_left_arm = 90.0;
-int pos_right_arm = 90.0;
-int head = 90.0;
-int left_arm = 90.0;
-int right_arm = 90.0;
+int pos_head = 90;
+int pos_left_arm = 90;
+int pos_right_arm = 90;
+int head = 90;
+int left_arm = 90;
+int right_arm = 90;
 
 void servoCallback(const dependant_api::linger_steering& linger)
 {
   head = linger.head;
   left_arm = linger.left_arm;
   right_arm = linger.right_arm;
+}
+
+ros::Subscriber<dependant_api::linger_steering> servo("linger_steering", servoCallback);
+
+void setup()
+{
+  Serial.begin(9600);
+  nh.initNode();
+  nh.subscribe(servo);
+  servo_head.attach(9);
+  servo_left_arm.attach(8);
+  servo_right_arm.attach(7);
+}
+
+void loop()
+{
+  nh.spinOnce();
 
   if (head > pos_head && pos_head < 170 && head - pos_head != 1)
     pos_head += 2;
@@ -37,21 +54,4 @@ void servoCallback(const dependant_api::linger_steering& linger)
   servo_head.write(pos_head);
   servo_left_arm.write(pos_left_arm);
   servo_right_arm.write(pos_right_arm);
-}
-
-ros::Subscriber<dependant_api::linger_steering> servo("linger_steering", servoCallback);
-
-void setup()
-{
-  Serial.begin(9600);
-  nh.initNode();
-  nh.subscribe(servo);
-  servo_head.attach(9);
-  servo_left_arm.attach(8);
-  servo_right_arm.attach(7);
-}
-
-void loop()
-{
-  nh.spinOnce();
 }
