@@ -1,4 +1,3 @@
-#include <Servo.h>
 #include <ros.h>
 #include <dependant_api/robotcmd_motor.h>
 #include <dependant_api/arduino_motor.h>
@@ -33,7 +32,7 @@ void setup()
   nh.initNode();
   nh.subscribe(servo);
   nh.advertise(feedback);
-  SR518.begin(57000, 2);  //配置串口速率为1mbps，设置数字引脚2为串口收发的开关
+  SR518.begin(57000, 2, 3);  //配置串口速率为1mbps，设数字引脚2,3为收发和使能端口，2,3电平始终相等
 
   //设置柔性边界和斜率
   SR518.setCompliance(0, 1, 1, 8, 8);

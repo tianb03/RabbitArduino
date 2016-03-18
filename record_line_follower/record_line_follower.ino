@@ -4,6 +4,7 @@
 ros::NodeHandle nh;
 beginner_tutorials::Int16Array analog;
 ros::Publisher ir_line_scanner_pub("ir_analog", &analog);
+int sensor_number = 8;
 int print_value;
 
 void setup()
@@ -27,7 +28,7 @@ void loop()
   a[9] = analogRead(9);
   a[10] = analogRead(10);
 
-  for (k = 0; k < 11; k++)
+  for (k = 0; k < sensor_number; k++)
     analog.data[k] = a[k];
   ir_line_scanner_pub.publish(&analog);
   nh.spinOnce();
@@ -35,9 +36,9 @@ void loop()
   delay(18.5);
 
   /**/print_value++;
-  if (print_value >= 500)
+  if (print_value >= 20)
   {
-    for (k = 0; k < 11; k++)
+    for (k = 0; k < sensor_number; k++)
     {
       Serial.print(a[k]);
       Serial.print("\t");
