@@ -166,7 +166,7 @@ void loop()
   feedback.publish(&motor_feedback);
 
 
-  /**/print_value++;
+  /*print_value++;
   if (print_value >= 10)
   {
     for (k = 0; k < sensor_number; k++)
@@ -204,7 +204,7 @@ void loop()
     Serial.print(pos_vertical);
     Serial.println(")");
     print_value = 0;
-  }
+  }*/
 }
 
 long int translateAnalog(long int angle)  //将舵机的控制范围由0~300度换算成-60~240度
