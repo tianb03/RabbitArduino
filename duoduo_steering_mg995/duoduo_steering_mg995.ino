@@ -31,7 +31,6 @@ ros::Subscriber<dependant_api::robotcmd_motor> servo("/robotcmd/motor", servoCal
 
 void setup()
 {
-  Serial.begin(9600);
   nh.initNode();
   nh.subscribe(servo);
   nh.advertise(feedback);

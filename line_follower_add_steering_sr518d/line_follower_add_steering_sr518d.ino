@@ -45,7 +45,7 @@ void setup()
   SR518.setCompliance(1, 1, 1, 8, 8);
 
   //设置运动范围
-  SR518.setLimit(0, translateAnalog(0), translateAnalog(180));  //一级保险
+  SR518.setLimit(0, translateAnalog(-15), translateAnalog(195));  //一级保险
   SR518.setLimit(1, translateAnalog(50), translateAnalog(180));
 }
 
@@ -139,10 +139,10 @@ void loop()
 
 //-------------------------------------------------------------------
 
-  if (horizontal >= 170)  //二级保险
-    horizontal = 170;
-  if (horizontal <= 10)
-    horizontal = 10;
+  if (horizontal >= 195)  //二级保险
+    horizontal = 195;
+  if (horizontal <= -15)
+    horizontal = -15;
   if (vertical >= 170)
     vertical = 170;
   if (vertical <= 50)

@@ -24,7 +24,6 @@ ros::Subscriber<dependant_api::linger_steering> servo("linger_steering", servoCa
 
 void setup()
 {
-  Serial.begin(9600);
   nh.initNode();
   nh.subscribe(servo);
   servo_head.attach(9);
