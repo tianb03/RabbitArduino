@@ -82,13 +82,13 @@ void loop()
     num_average = num_value / sensor_number;
 
     //根据两组值的平均值差距，判断是否有线或全是线
-    if ((max_average - min_average < 300) && (max_average - min_average > 50))
+    if ((50 < max_average - min_average) && (max_average - min_average <= 300))  //设定黑白线均值差异量
     {
-      if (max_average < 700)
+      if (max_average < 700)  //全是黑线
         for (k = 0; k < sensor_number; k++)
           a[k] += 1;
     }
-    else if (max_average - min_average > 50)
+    if (max_average - min_average > 300)
     {
       for (k = 0; k < sensor_number; k++)
         if (median_average >= b[k])

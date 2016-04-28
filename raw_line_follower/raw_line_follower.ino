@@ -1,10 +1,10 @@
 #include <ros.h>
-#include <beginner_tutorials/Int16Array.h>
+#include <dependant_api/Int16Array.h>
 
 ros::NodeHandle nh;
-beginner_tutorials::Int16Array analog;
-ros::Publisher ir_line_scanner_pub("ir_analog", &analog);
-int sensor_number = 8;
+dependant_api::Int16Array analog;
+ros::Publisher ir_line_scanner_pub("ir_raw_data", &analog);
+int sensor_number = 11;
 int print_value;
 
 void setup()
@@ -33,7 +33,7 @@ void loop()
   ir_line_scanner_pub.publish(&analog);
   nh.spinOnce();
 
-  delay(18.5);
+  //delay(18.5);  //使话题频率为50Hz
 
   /**/print_value++;
   if (print_value >= 20)
